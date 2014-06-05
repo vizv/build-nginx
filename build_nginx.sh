@@ -2,7 +2,7 @@
 
 # names of latest versions of each package
 export VERSION_PCRE=pcre-8.35
-export VERSION_OPENSSL=openssl-1.0.1g
+export VERSION_OPENSSL=openssl-1.0.1h
 export VERSION_NGINX=nginx-1.7.1
 
 # URLs to the source directories
@@ -15,7 +15,7 @@ rm -rf build
 mkdir build
 
 # ensure that we have the required software to compile our own nginx
-sudo apt-get -y install curl wget build-essential
+apt-get -y install curl wget build-essential
 
 # grab the source files
 wget -P ./build $SOURCE_PCRE$VERSION_PCRE.tar.gz
