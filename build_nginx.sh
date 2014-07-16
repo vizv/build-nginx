@@ -39,6 +39,7 @@ export STATICLIBSSL=$BPATH/$VERSION_LIBRESSL
 echo "Configure & Build LibreSSL"
 cd $STATICLIBSSL
 echo -e "#! /bin/bash \n./configure LDFLAGS=-lrt" > config
+chmod +x config
 ./configure && make check
 if  [ -d ".openssl" ]; then
   rm -Rf .openssl
