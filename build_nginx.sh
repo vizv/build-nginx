@@ -16,7 +16,7 @@ rm -rf build
 mkdir build
 
 # ensure that we have the required software to compile our own nginx
-apt-get -y install curl wget build-essential
+apt-get -y install curl wget build-essential libgd-dev
 
 # grab the source files
 echo "Download sources"
