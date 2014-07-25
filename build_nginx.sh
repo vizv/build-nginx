@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 # names of latest versions of each package
+export NGINX_VERSION=1.7.3
 export VERSION_PCRE=pcre-8.35
 export VERSION_LIBRESSL=libressl-2.0.2
-export VERSION_NGINX=nginx-1.7.3
+export VERSION_NGINX=nginx-$NGINX_VERSION
 
 # URLs to the source directories
 export SOURCE_LIBRESSL=ftp://ftp.openbsd.org/pub/OpenBSD/LibreSSL/
@@ -53,10 +54,6 @@ cd .openssl && ln -s ../include ./
 # you might want to strip debugging-symbols
 cd .openssl/lib && strip -g libssl.a  && strip -g libcrypto.a
 
-
-# rename the existing /etc/nginx directory so it's saved as a back-up
-sudo mv /etc/nginx /etc/nginx-bk
-
 # build nginx, with various modules included/excluded
 echo "Configure & Build Nginx"
 cd $BPATH/$VERSION_NGINX
@@ -97,13 +94,9 @@ mkdir -p $BPATH/nginx
  --with-http_gzip_static_module
 
 touch $STATICLIBSSL/.openssl/include/openssl/ssl.h
-make && sudo make install
-
-# rename the compiled /etc/nginx directory so its accessible as a reference to the new nginx defaults
-sudo mv /etc/nginx /etc/nginx-default
-
-# now restore the /etc/nginx-bk to /etc/nginx so the old settings are kept
-sudo mv /etc/nginx-bk /etc/nginx
+make && sudo checkinstall --pkgname="nginx-libressl" --pkgversion="$NGINX_VERSION" \
+--provides="nginx" --requires="libc6, libpcre3, zlib1g" --strip=yes \
+--stripso=yes --backup=yes -y --install=yes
 
 echo "All done.";
 echo "This build has not edited your existing /etc/nginx directory.";
