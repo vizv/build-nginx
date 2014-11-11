@@ -10,7 +10,7 @@ export VERSION_NGINX=nginx-$NGINX_VERSION
 export SOURCE_LIBRESSL=ftp://ftp.openbsd.org/pub/OpenBSD/LibreSSL/
 export SOURCE_PCRE=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
 export SOURCE_NGINX=http://nginx.org/download/
-export NGINX_PATH=https://raw.githubusercontent.com/technion/libressl_nginx/master/nginx-libressl2.patch
+#export NGINX_PATH=https://raw.githubusercontent.com/technion/libressl_nginx/master/nginx-libressl2.patch
 
 # clean out any files from previous runs of this script
 rm -rf build
@@ -57,8 +57,8 @@ cd .openssl/lib && strip -g libssl.a  && strip -g libcrypto.a
 # build nginx, with various modules included/excluded
 echo "Configure & Build Nginx"
 cd $BPATH/$VERSION_NGINX
-echo "Download and apply path"
-wget -q -O - $NGINX_PATH | patch -p0
+#echo "Download and apply path"
+#wget -q -O - $NGINX_PATH | patch -p0
 mkdir -p $BPATH/nginx
 ./configure  --with-openssl=$STATICLIBSSL \
 --with-ld-opt="-lrt"  \
