@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # names of latest versions of each package
-export NGINX_VERSION=1.7.7
+export NGINX_VERSION=1.7.9
 export VERSION_PCRE=pcre-8.36
-export VERSION_LIBRESSL=libressl-2.1.1
+export VERSION_LIBRESSL=libressl-2.1.2
 export VERSION_NGINX=nginx-$NGINX_VERSION
 
 # URLs to the source directories
