@@ -39,20 +39,9 @@ export STATICLIBSSL=$BPATH/$VERSION_LIBRESSL
 # build static LibreSSL
 echo "Configure & Build LibreSSL"
 cd $STATICLIBSSL
-echo -e "#! /bin/bash \n./configure LDFLAGS=-lrt" > config
+echo -e "#! /bin/bash \n./configure LDFLAGS=-lrt --prefix=${STATICLIBSSL}/.openssl/" > config
 chmod +x config
-./configure && make check
-if  [ -d ".openssl" ]; then
-  rm -Rf .openssl
-fi
-
-mkdir -p .openssl/lib
-
-cp crypto/.libs/libcrypto.a ssl/.libs/libssl.a .openssl/lib
-cd .openssl && ln -s ../include ./
-
-# you might want to strip debugging-symbols
-cd .openssl/lib && strip -g libssl.a  && strip -g libcrypto.a
+./configure && make install-strip
 
 # build nginx, with various modules included/excluded
 echo "Configure & Build Nginx"
