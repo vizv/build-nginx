@@ -41,7 +41,7 @@ echo "Configure & Build LibreSSL"
 cd $STATICLIBSSL
 echo -e "#! /bin/bash \n./configure LDFLAGS=-lrt --prefix=${STATICLIBSSL}/.openssl/" > config
 chmod +x config
-./configure && make install-strip
+./configure LDFLAGS=-lrt --prefix=${STATICLIBSSL}/.openssl/ && make install-strip
 
 # build nginx, with various modules included/excluded
 echo "Configure & Build Nginx"
