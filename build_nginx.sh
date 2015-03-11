@@ -17,7 +17,7 @@ rm -rf build
 mkdir build
 
 # ensure that we have the required software to compile our own nginx
-sudo apt-get -y install curl wget build-essential libgd-dev libgeoip-dev
+sudo apt-get -y install curl wget build-essential libgd-dev libgeoip-dev checkinstall
 
 # grab the source files
 echo "Download sources"
