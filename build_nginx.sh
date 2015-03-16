@@ -10,20 +10,21 @@ export VERSION_NGINX=nginx-$NGINX_VERSION
 export SOURCE_LIBRESSL=ftp://ftp.openbsd.org/pub/OpenBSD/LibreSSL/
 export SOURCE_PCRE=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
 export SOURCE_NGINX=http://nginx.org/download/
-#export NGINX_PATH=https://raw.githubusercontent.com/technion/libressl_nginx/master/nginx-libressl2.patch
+export SOURCE_RTMP=https://github.com/arut/nginx-rtmp-module.git
 
 # clean out any files from previous runs of this script
 rm -rf build
 mkdir build
 
 # ensure that we have the required software to compile our own nginx
-sudo apt-get -y install curl wget build-essential libgd-dev libgeoip-dev checkinstall
+sudo apt-get -y install curl wget build-essential libgd-dev libgeoip-dev checkinstall git
 
 # grab the source files
 echo "Download sources"
 wget -P ./build $SOURCE_PCRE$VERSION_PCRE.tar.gz
 wget -P ./build $SOURCE_LIBRESSL$VERSION_LIBRESSL.tar.gz
 wget -P ./build $SOURCE_NGINX$VERSION_NGINX.tar.gz
+git clone $SOURCE_RTMP ./build/rtmp
 
 # expand the source files
 cd build
@@ -78,7 +79,8 @@ mkdir -p $BPATH/nginx
  --with-http_auth_request_module \
  --with-http_addition_module \
  --with-http_geoip_module \
- --with-http_gzip_static_module
+ --with-http_gzip_static_module \
+ --add-module=$BPATH/rtmp
 
 touch $STATICLIBSSL/.openssl/include/openssl/ssl.h
 make && sudo checkinstall --pkgname="nginx-libressl" --pkgversion="$NGINX_VERSION" \
