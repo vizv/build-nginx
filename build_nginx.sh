@@ -5,7 +5,7 @@ export NGINX_VERSION=1.9.3
 export VERSION_PCRE=pcre-8.37
 export VERSION_LIBRESSL=libressl-2.2.1
 export VERSION_NGINX=nginx-$NGINX_VERSION
-export NPS_VERSION=1.9.32.3
+export NPS_VERSION=1.9.32.4
 export VERSION_PAGESPEED=v${NPS_VERSION}-beta
  
 # URLs to the source directories
