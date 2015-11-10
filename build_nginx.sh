@@ -40,8 +40,8 @@ cd build
 tar xzf $VERSION_NGINX.tar.gz
 tar xzf $VERSION_LIBRESSL.tar.gz
 tar xzf $VERSION_PCRE.tar.gz
-tar xzf $VERSION_PAGESPEED.tar.gz
-tar xzf ${NPS_VERSION}.tar.gz -C ngx_pagespeed-${NPS_VERSION}-beta
+#tar xzf $VERSION_PAGESPEED.tar.gz
+#tar xzf ${NPS_VERSION}.tar.gz -C ngx_pagespeed-${NPS_VERSION}-beta
 cd ../
 # set where LibreSSL and nginx will be built
 export BPATH=$(pwd)/build
