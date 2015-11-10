@@ -63,7 +63,7 @@ mkdir -p $BPATH/nginx
 --http-log-path=/var/log/nginx/access.log \
 --with-pcre=$BPATH/$VERSION_PCRE \
 --with-http_ssl_module \
---with-http_spdy_module \
+--with-http_v2_module \
 --with-file-aio \
 --with-ipv6 \
 --with-http_gzip_static_module \
