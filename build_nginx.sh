@@ -3,7 +3,7 @@
 # names of latest versions of each package
 export NGINX_VERSION=1.9.6
 export VERSION_PCRE=pcre-8.37
-export VERSION_LIBRESSL=libressl-2.3.1
+export VERSION_LIBRESSL=libressl-2.2.4
 export VERSION_NGINX=nginx-$NGINX_VERSION
 export NPS_VERSION=1.9.32.10
 export VERSION_PAGESPEED=v${NPS_VERSION}-beta
