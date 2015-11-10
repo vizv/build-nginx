@@ -3,17 +3,17 @@
 # names of latest versions of each package
 export NGINX_VERSION=1.9.6
 export VERSION_PCRE=pcre-8.37
-export VERSION_LIBRESSL=libressl-2.2.4
+export VERSION_LIBRESSL=libressl-2.3.1
 export VERSION_NGINX=nginx-$NGINX_VERSION
-export NPS_VERSION=1.9.32.10
-export VERSION_PAGESPEED=v${NPS_VERSION}-beta
+#export NPS_VERSION=1.9.32.10
+#export VERSION_PAGESPEED=v${NPS_VERSION}-beta
  
 # URLs to the source directories
 export SOURCE_LIBRESSL=ftp://ftp.openbsd.org/pub/OpenBSD/LibreSSL/
 export SOURCE_PCRE=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
 export SOURCE_NGINX=http://nginx.org/download/
 export SOURCE_RTMP=https://github.com/arut/nginx-rtmp-module.git
-export SOURCE_PAGESPEED=https://github.com/pagespeed/ngx_pagespeed/archive/
+#export SOURCE_PAGESPEED=https://github.com/pagespeed/ngx_pagespeed/archive/
  
 # clean out any files from previous runs of this script
 rm -rf build
@@ -30,8 +30,8 @@ echo "Download sources"
 wget -P ./build $SOURCE_PCRE$VERSION_PCRE.tar.gz
 wget -P ./build $SOURCE_LIBRESSL$VERSION_LIBRESSL.tar.gz
 wget -P ./build $SOURCE_NGINX$VERSION_NGINX.tar.gz
-wget -P ./build $SOURCE_PAGESPEED$VERSION_PAGESPEED.tar.gz
-wget -P ./build https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz
+#wget -P ./build $SOURCE_PAGESPEED$VERSION_PAGESPEED.tar.gz
+#wget -P ./build https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz
 git clone $SOURCE_RTMP ./build/rtmp
  
 # expand the source files
@@ -90,8 +90,8 @@ mkdir -p $BPATH/nginx
  --with-http_addition_module \
  --with-http_geoip_module \
  --with-http_gzip_static_module \
- --add-module=$BPATH/rtmp \
- --add-module=$BPATH/ngx_pagespeed-${NPS_VERSION}-beta
+ --add-module=$BPATH/rtmp
+ #--add-module=$BPATH/ngx_pagespeed-${NPS_VERSION}-beta
  
 touch $STATICLIBSSL/.openssl/include/openssl/ssl.h
 make -j $NB_PROC && sudo checkinstall --pkgname="nginx-libressl" --pkgversion="$NGINX_VERSION" \
