@@ -18,6 +18,9 @@ export SOURCE_PAGESPEED=https://github.com/pagespeed/ngx_pagespeed/archive/
 # clean out any files from previous runs of this script
 rm -rf build
 mkdir build
+
+# proc for building faster
+NB_PROC=$(grep -c ^processor /proc/cpuinfo)
  
 # ensure that we have the required software to compile our own nginx
 sudo apt-get -y install curl wget build-essential libgd-dev libgeoip-dev checkinstall git
@@ -47,7 +50,7 @@ export STATICLIBSSL=$BPATH/$VERSION_LIBRESSL
 # build static LibreSSL
 echo "Configure & Build LibreSSL"
 cd $STATICLIBSSL
-./configure LDFLAGS=-lrt --prefix=${STATICLIBSSL}/.openssl/ && make install-strip
+./configure LDFLAGS=-lrt --prefix=${STATICLIBSSL}/.openssl/ && make install-strip -j $NB_PROC
  
 # build nginx, with various modules included/excluded
 echo "Configure & Build Nginx"
@@ -91,7 +94,7 @@ mkdir -p $BPATH/nginx
  --add-module=$BPATH/ngx_pagespeed-${NPS_VERSION}-beta
  
 touch $STATICLIBSSL/.openssl/include/openssl/ssl.h
-make && sudo checkinstall --pkgname="nginx-libressl" --pkgversion="$NGINX_VERSION" \
+make -j $NB_PROC && sudo checkinstall --pkgname="nginx-libressl" --pkgversion="$NGINX_VERSION" \
 --provides="nginx" --requires="libc6, libpcre3, zlib1g" --strip=yes \
 --stripso=yes --backup=yes -y --install=yes
  
