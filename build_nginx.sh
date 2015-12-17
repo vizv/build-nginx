@@ -19,8 +19,8 @@ export VERSION_MOD_PAGESPEED="release-${MOD_PAGESPEED_VERSION}-beta"
 export VERSION_MOD_RTMP="v${MOD_RTMP_VERSION}"
  
 # URLs to the source directories
-export SOURCE_PCRE='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre'
-export SOURCE_LIBRESSL='ftp://ftp.openbsd.org/pub/OpenBSD/LibreSSL'
+export SOURCE_PCRE='http://ftp.csx.cam.ac.uk/pub/software/programming/pcre'
+export SOURCE_LIBRESSL='http://ftp.openbsd.org/pub/OpenBSD/LibreSSL'
 export SOURCE_NGINX='http://nginx.org/download'
 export SOURCE_PSOL='https://dl.google.com/dl/page-speed/psol'
 export SOURCE_MOD_PAGESPEED='https://github.com/pagespeed/ngx_pagespeed/archive'
