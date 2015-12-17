@@ -1,105 +1,115 @@
-#!/usr/bin/env bash
- 
+#!/bin/sh
+
+# enable strict mode
+set -e
+
 # names of latest versions of each package
-export NGINX_VERSION=1.9.9
-export VERSION_PCRE=pcre-8.38
-export VERSION_LIBRESSL=libressl-2.3.1
-export VERSION_NGINX=nginx-$NGINX_VERSION
-#export NPS_VERSION=1.9.32.10
-#export VERSION_PAGESPEED=v${NPS_VERSION}-beta
+export PCRE_VERSION='8.38'
+export LIBRESSL_VERSION='2.3.1'
+export NGINX_VERSION='1.9.9'
+export PSOL_VERSION='1.10.33.1'
+export MOD_PAGESPEED_VERSION="$PSOL_VERSION"
+export MOD_RTMP_VERSION='1.1.7'
+
+export VERSION_PCRE="pcre-${PCRE_VERSION}"
+export VERSION_LIBRESSL="libressl-${LIBRESSL_VERSION}"
+export VERSION_NGINX="nginx-${NGINX_VERSION}"
+export VERSION_PSOL="${PSOL_VERSION}"
+export VERSION_MOD_PAGESPEED="release-${MOD_PAGESPEED_VERSION}-beta"
+export VERSION_MOD_RTMP="v${MOD_RTMP_VERSION}"
  
 # URLs to the source directories
-export SOURCE_LIBRESSL=ftp://ftp.openbsd.org/pub/OpenBSD/LibreSSL/
-export SOURCE_PCRE=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
-export SOURCE_NGINX=http://nginx.org/download/
-export SOURCE_RTMP=https://github.com/arut/nginx-rtmp-module.git
-#export SOURCE_PAGESPEED=https://github.com/pagespeed/ngx_pagespeed/archive/
+export SOURCE_PCRE='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre'
+export SOURCE_LIBRESSL='ftp://ftp.openbsd.org/pub/OpenBSD/LibreSSL'
+export SOURCE_NGINX='http://nginx.org/download'
+export SOURCE_PSOL='https://dl.google.com/dl/page-speed/psol'
+export SOURCE_MOD_PAGESPEED='https://github.com/pagespeed/ngx_pagespeed/archive'
+export SOURCE_MOD_RTMP='https://github.com/arut/nginx-rtmp-module/archive'
+
+# set paths
+export BPATH='/tmp/build'
+
+export PATH_PCRE="${BPATH}/pcre-${PCRE_VERSION}"
+export PATH_LIBRESSL="${BPATH}/libressl-${LIBRESSL_VERSION}"
+export PATH_NGINX="${BPATH}/nginx-${NGINX_VERSION}"
+export PATH_MOD_PAGESPEED="${BPATH}/\
+ngx_pagespeed-release-${MOD_PAGESPEED_VERSION}-beta"
+export PATH_MOD_RTMP="${BPATH}/nginx-rtmp-module-${MOD_RTMP_VERSION}"
  
 # clean out any files from previous runs of this script
-rm -rf build
-mkdir build
+rm -rf "$BPATH"
+mkdir "$BPATH"
+cd "$BPATH"
 
 # proc for building faster
-NB_PROC=$(grep -c ^processor /proc/cpuinfo)
+NB_PROC=$(grep -c '^processor' /proc/cpuinfo)
  
 # ensure that we have the required software to compile our own nginx
-sudo apt-get -y install curl wget build-essential libgd-dev libgeoip-dev checkinstall git
+apt-get -y install wget build-essential libgd-dev
  
 # grab the source files
 echo "Download sources"
-wget -P ./build $SOURCE_PCRE$VERSION_PCRE.tar.gz
-wget -P ./build $SOURCE_LIBRESSL$VERSION_LIBRESSL.tar.gz
-wget -P ./build $SOURCE_NGINX$VERSION_NGINX.tar.gz
-#wget -P ./build $SOURCE_PAGESPEED$VERSION_PAGESPEED.tar.gz
-#wget -P ./build https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz
-git clone $SOURCE_RTMP ./build/rtmp
+wget "${SOURCE_PCRE}/${VERSION_PCRE}.tar.gz"
+wget "${SOURCE_LIBRESSL}/${VERSION_LIBRESSL}.tar.gz"
+wget "${SOURCE_NGINX}/${VERSION_NGINX}.tar.gz"
+wget "${SOURCE_PSOL}/${VERSION_PSOL}.tar.gz"
+wget "${SOURCE_MOD_PAGESPEED}/${VERSION_MOD_PAGESPEED}.tar.gz"
+wget "${SOURCE_MOD_RTMP}/${VERSION_MOD_RTMP}.tar.gz"
  
 # expand the source files
 echo "Extract Packages"
-cd build
-tar xzf $VERSION_NGINX.tar.gz
-tar xzf $VERSION_LIBRESSL.tar.gz
-tar xzf $VERSION_PCRE.tar.gz
-#tar xzf $VERSION_PAGESPEED.tar.gz
-#tar xzf ${NPS_VERSION}.tar.gz -C ngx_pagespeed-${NPS_VERSION}-beta
-cd ../
-# set where LibreSSL and nginx will be built
-export BPATH=$(pwd)/build
-export STATICLIBSSL=$BPATH/$VERSION_LIBRESSL
+tar xvf "${VERSION_PCRE}.tar.gz"
+tar xvf "${VERSION_LIBRESSL}.tar.gz"
+tar xvf "${VERSION_NGINX}.tar.gz"
+tar xvf "${VERSION_MOD_PAGESPEED}.tar.gz"
+tar xvf "${VERSION_PSOL}.tar.gz" -C "$PATH_MOD_PAGESPEED"
+tar xvf "${VERSION_MOD_RTMP}.tar.gz"
  
-# build static LibreSSL
+# build static LibreSSL TODO: do I really want to pre-build it???
 echo "Configure & Build LibreSSL"
-cd $STATICLIBSSL
-./configure LDFLAGS=-lrt --prefix=${STATICLIBSSL}/.openssl/ && make install-strip -j $NB_PROC
+cd "$PATH_LIBRESSL"
+./configure LDFLAGS=-lrt --prefix=${PATH_LIBRESSL}/.openssl/
+make install-strip -j $NB_PROC
  
 # build nginx, with various modules included/excluded
 echo "Configure & Build Nginx"
-cd $BPATH/$VERSION_NGINX
-#echo "Download and apply path"
-#wget -q -O - $NGINX_PATH | patch -p0
-mkdir -p $BPATH/nginx
-./configure  --with-openssl=$STATICLIBSSL \
---with-ld-opt="-lrt"  \
---sbin-path=/usr/sbin/nginx \
---conf-path=/etc/nginx/nginx.conf \
---error-log-path=/var/log/nginx/error.log \
---http-log-path=/var/log/nginx/access.log \
---with-pcre=$BPATH/$VERSION_PCRE \
---with-http_ssl_module \
---with-http_v2_module \
---with-file-aio \
---with-ipv6 \
---with-http_gzip_static_module \
---with-http_stub_status_module \
---without-mail_pop3_module \
---without-mail_smtp_module \
---without-mail_imap_module \
---with-http_image_filter_module \
- --lock-path=/var/lock/nginx.lock \
- --pid-path=/run/nginx.pid \
- --http-client-body-temp-path=/var/lib/nginx/body \
- --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
- --http-proxy-temp-path=/var/lib/nginx/proxy \
- --http-scgi-temp-path=/var/lib/nginx/scgi \
- --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
- --with-debug \
- --with-pcre-jit \
- --with-http_stub_status_module \
- --with-http_realip_module \
- --with-http_auth_request_module \
- --with-http_addition_module \
- --with-http_geoip_module \
- --with-http_gzip_static_module \
- --add-module=$BPATH/rtmp
- #--add-module=$BPATH/ngx_pagespeed-${NPS_VERSION}-beta
+cd "$PATH_NGINX"
+
+./configure --with-openssl="$PATH_LIBRESSL" \
+            --with-ld-opt="-lrt"  \
+            --sbin-path=/usr/sbin/nginx \
+            --conf-path=/etc/nginx/nginx.conf \
+            --error-log-path=/var/log/nginx/error.log \
+            --http-log-path=/var/log/nginx/access.log \
+            --with-pcre="$PATH_PCRE" \
+            --with-http_ssl_module \
+            --with-http_v2_module \
+            --with-http_realip_module \
+            --with-http_addition_module \
+            --with-http_gzip_static_module \
+            --with-http_stub_status_module \
+            --with-http_auth_request_module \
+            --with-file-aio \
+            --with-ipv6 \
+            --without-http_geo_module \
+            --without-mail_pop3_module \
+            --without-mail_smtp_module \
+            --without-mail_imap_module \
+            --lock-path=/var/lock/nginx.lock \
+            --pid-path=/run/nginx.pid \
+            --http-client-body-temp-path=/var/lib/nginx/body \
+            --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
+            --http-proxy-temp-path=/var/lib/nginx/proxy \
+            --http-scgi-temp-path=/var/lib/nginx/scgi \
+            --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
+            --with-debug \
+            --with-pcre-jit \
+            --add-module="$PATH_MOD_RTMP" \
+            --add-module="$PATH_MOD_PAGESPEED"
  
-touch $STATICLIBSSL/.openssl/include/openssl/ssl.h
-make -j $NB_PROC && sudo checkinstall --pkgname="nginx-libressl" --pkgversion="$NGINX_VERSION" \
---provides="nginx" --requires="libc6, libpcre3, zlib1g" --strip=yes \
---stripso=yes --backup=yes -y --install=yes
- 
-echo "All done.";
-echo "This build has not edited your existing /etc/nginx directory.";
-echo "If things aren't working now you may need to refer to the";
-echo "configuration files the new nginx ships with as defaults,";
-echo "which are available at /etc/nginx-default";
+# TODO: Why touch?
+touch "${PATH_LIBRESSL}/.openssl/include/openssl/ssl.h"
+make -j $NB_PROC
+make DESTDIR=/tmp/stage install
+
+echo 'Done!'
