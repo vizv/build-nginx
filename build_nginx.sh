@@ -105,5 +105,6 @@ cd "$PATH_NGINX"
 # Distribute to destination directory
 make -j $N_CPU
 make DESTDIR="$DPATH" install
+mkdir -p "${DPATH}/var/lib/nginx"
 
 echo 'Done!'
