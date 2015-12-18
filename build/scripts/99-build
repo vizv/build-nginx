@@ -45,6 +45,7 @@ cd "$PATH_NGINX"
 # distribute to DPATH
 make -j $N_CPU
 make DESTDIR="$DPATH" install
+mkdir -p "${DPATH}/var/lib/nginx"
 
 # notify user the process is finished
 echo 'Done!'
