@@ -28,6 +28,7 @@ export SOURCE_MOD_RTMP='https://github.com/arut/nginx-rtmp-module/archive'
 
 # set paths
 export BPATH='/tmp/build'
+export DPATH='/tmp/dist'
 
 export PATH_PCRE="${BPATH}/pcre-${PCRE_VERSION}"
 export PATH_LIBRESSL="${BPATH}/libressl-${LIBRESSL_VERSION}"
@@ -42,7 +43,7 @@ mkdir "$BPATH"
 cd "$BPATH"
 
 # proc for building faster
-NB_PROC=$(grep -c '^processor' /proc/cpuinfo)
+N_CPU=$(grep -c '^processor' /proc/cpuinfo)
  
 # ensure that we have the required software to compile our own nginx
 apt-get -y install wget build-essential libgd-dev
@@ -64,12 +65,6 @@ tar xvf "${VERSION_NGINX}.tar.gz"
 tar xvf "${VERSION_MOD_PAGESPEED}.tar.gz"
 tar xvf "${VERSION_PSOL}.tar.gz" -C "$PATH_MOD_PAGESPEED"
 tar xvf "${VERSION_MOD_RTMP}.tar.gz"
- 
-# build static LibreSSL TODO: do I really want to pre-build it???
-echo "Configure & Build LibreSSL"
-cd "$PATH_LIBRESSL"
-./configure LDFLAGS=-lrt --prefix=${PATH_LIBRESSL}/.openssl/
-make install-strip -j $NB_PROC
  
 # build nginx, with various modules included/excluded
 echo "Configure & Build Nginx"
@@ -107,9 +102,8 @@ cd "$PATH_NGINX"
             --add-module="$PATH_MOD_RTMP" \
             --add-module="$PATH_MOD_PAGESPEED"
  
-# TODO: Why touch?
-touch "${PATH_LIBRESSL}/.openssl/include/openssl/ssl.h"
-make -j $NB_PROC
-make DESTDIR=/tmp/stage install
+# Distribute to destination directory
+make -j $N_CPU
+make DESTDIR="$DPATH" install
 
 echo 'Done!'
