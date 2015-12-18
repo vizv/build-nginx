@@ -46,10 +46,10 @@ RUN cd "$BPATH" \
        | tar zxv \
     && wget -qO- "${SOURCE_NGINX}/${VERSION_NGINX}.tar.gz" \
        | tar zxv \
-    && wget -qO- "${SOURCE_PSOL}/${VERSION_PSOL}.tar.gz" \
-       | tar zxv \
     && wget -qO- "${SOURCE_MOD_PAGESPEED}/${VERSION_MOD_PAGESPEED}.tar.gz" \
        | tar zxv \
+    && wget -qO- "${SOURCE_PSOL}/${VERSION_PSOL}.tar.gz" \
+       | tar zxv -C "$PATH_MOD_PAGESPEED" \
     && wget -qO- "${SOURCE_MOD_RTMP}/${VERSION_MOD_RTMP}.tar.gz" \
        | tar zxv
 

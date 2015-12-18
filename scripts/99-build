@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# enable strict mode
+set -e
+
+# get number of cpus for building faster
+N_CPU=$(grep -c '^processor' /proc/cpuinfo)
+
+# build nginx, with various modules included/excluded
+echo "Configure & Build Nginx"
+cd "$PATH_NGINX"
+
+./configure --with-openssl="$PATH_LIBRESSL" \
+            --with-ld-opt="-lrt"  \
+            --sbin-path=/usr/sbin/nginx \
+            --conf-path=/etc/nginx/nginx.conf \
+            --error-log-path=/var/log/nginx/error.log \
+            --http-log-path=/var/log/nginx/access.log \
+            --with-pcre="$PATH_PCRE" \
+            --with-http_ssl_module \
+            --with-http_v2_module \
+            --with-http_realip_module \
+            --with-http_addition_module \
+            --with-http_gzip_static_module \
+            --with-http_stub_status_module \
+            --with-http_auth_request_module \
+            --with-file-aio \
+            --with-ipv6 \
+            --without-http_geo_module \
+            --without-mail_pop3_module \
+            --without-mail_smtp_module \
+            --without-mail_imap_module \
+            --lock-path=/var/lock/nginx.lock \
+            --pid-path=/run/nginx.pid \
+            --http-client-body-temp-path=/var/lib/nginx/body \
+            --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
+            --http-proxy-temp-path=/var/lib/nginx/proxy \
+            --http-scgi-temp-path=/var/lib/nginx/scgi \
+            --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
+            --with-debug \
+            --with-pcre-jit \
+            --add-module="$PATH_MOD_RTMP" \
+            --add-module="$PATH_MOD_PAGESPEED"
+
+# distribute to DPATH
+make -j $N_CPU
+make DESTDIR="$DPATH" install
+
+# notify user the process is finished
+echo 'Done!'
