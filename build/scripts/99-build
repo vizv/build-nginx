@@ -41,9 +41,9 @@ cd "$PATH_NGINX"
             --with-pcre-jit \
             --add-module="$PATH_MOD_RTMP" \
             --add-module="$PATH_MOD_PAGESPEED"
+make -j $N_CPU
 
 # distribute to DPATH
-make -j $N_CPU
 make DESTDIR="$DPATH" install
 mkdir -p "${DPATH}/var/lib/nginx"
 
