@@ -51,4 +51,7 @@ cd "$PATH_NGINX"
 make -j $N_CPU
 
 # install to DPATH
-install -m755 objs/nginx "${DPATH}/nginx"
+mkdir -p "${DPATH}/var/run"
+mkdir -p "${DPATH}/var/cache/nginx"
+mkdir -p "${DPATH}/usr/sbin"
+install -m755 objs/nginx "${DPATH}/usr/sbin/nginx"

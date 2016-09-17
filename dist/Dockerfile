@@ -1,11 +1,11 @@
-FROM ubuntu:latest
+FROM busybox:latest
 MAINTAINER Viz <viz@linux.com>
 
-RUN addgroup --system nginx > /dev/null; \
-    adduser  --system --disabled-login --ingroup nginx --no-create-home \
-             --home /nonexistent --gecos "nginx user" --shell /bin/false \
-             nginx > /dev/null
-
 COPY files /
+
+RUN addgroup -g 999 -S nginx > /dev/null; \
+    adduser  -u 999 -S -D -h /var/cache/nginx \
+                          -s /sbin/nologin \
+                          -G nginx nginx > /dev/null
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]

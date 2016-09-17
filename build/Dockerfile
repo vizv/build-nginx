@@ -3,7 +3,7 @@ MAINTAINER Viz <viz@linux.com>
 
 ENV DIR_SCRIPTS='/scripts' \
     BPATH='/usr/src' \
-    DPATH='/tmp/dist'
+    DPATH='/dist'
 RUN mkdir "$BPATH"
 
 RUN apk add --no-cache curl make gcc g++ linux-headers libc-dev
