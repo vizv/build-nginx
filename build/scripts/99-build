@@ -39,7 +39,9 @@ cd "$PATH_NGINX"
             --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
             --with-debug \
             --with-pcre-jit \
-            --add-module="$PATH_MOD_RTMP"
+            --add-module="$PATH_MOD_RTMP" \
+            --add-module="$PATH_MOD_HEADERS_MORE" \
+            --add-module="$PATH_MOD_FANCYINDEX"
 
 make -j $N_CPU
 
