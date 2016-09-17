@@ -4,26 +4,20 @@
 set -e
 
 # names of latest versions of each package
-export PCRE_VERSION='8.38'
-export LIBRESSL_VERSION='2.3.1'
-export NGINX_VERSION='1.9.9'
-export PSOL_VERSION='1.10.33.1'
-export MOD_PAGESPEED_VERSION="$PSOL_VERSION"
-export MOD_RTMP_VERSION='1.1.7'
+export PCRE_VERSION='8.39'
+export LIBRESSL_VERSION='2.4.2'
+export NGINX_VERSION='1.11.4'
+export MOD_RTMP_VERSION='1.1.9'
 
 export VERSION_PCRE="pcre-${PCRE_VERSION}"
 export VERSION_LIBRESSL="libressl-${LIBRESSL_VERSION}"
 export VERSION_NGINX="nginx-${NGINX_VERSION}"
-export VERSION_PSOL="${PSOL_VERSION}"
-export VERSION_MOD_PAGESPEED="release-${MOD_PAGESPEED_VERSION}-beta"
 export VERSION_MOD_RTMP="v${MOD_RTMP_VERSION}"
  
 # URLs to the source directories
 export SOURCE_PCRE='http://ftp.csx.cam.ac.uk/pub/software/programming/pcre'
 export SOURCE_LIBRESSL='http://ftp.openbsd.org/pub/OpenBSD/LibreSSL'
 export SOURCE_NGINX='http://nginx.org/download'
-export SOURCE_PSOL='https://dl.google.com/dl/page-speed/psol'
-export SOURCE_MOD_PAGESPEED='https://github.com/pagespeed/ngx_pagespeed/archive'
 export SOURCE_MOD_RTMP='https://github.com/arut/nginx-rtmp-module/archive'
 
 # set paths
@@ -33,8 +27,6 @@ export DPATH='/tmp/dist'
 export PATH_PCRE="${BPATH}/pcre-${PCRE_VERSION}"
 export PATH_LIBRESSL="${BPATH}/libressl-${LIBRESSL_VERSION}"
 export PATH_NGINX="${BPATH}/nginx-${NGINX_VERSION}"
-export PATH_MOD_PAGESPEED="${BPATH}/\
-ngx_pagespeed-release-${MOD_PAGESPEED_VERSION}-beta"
 export PATH_MOD_RTMP="${BPATH}/nginx-rtmp-module-${MOD_RTMP_VERSION}"
  
 # clean out any files from previous runs of this script
@@ -53,8 +45,6 @@ echo "Download sources"
 wget "${SOURCE_PCRE}/${VERSION_PCRE}.tar.gz"
 wget "${SOURCE_LIBRESSL}/${VERSION_LIBRESSL}.tar.gz"
 wget "${SOURCE_NGINX}/${VERSION_NGINX}.tar.gz"
-wget "${SOURCE_PSOL}/${VERSION_PSOL}.tar.gz"
-wget "${SOURCE_MOD_PAGESPEED}/${VERSION_MOD_PAGESPEED}.tar.gz"
 wget "${SOURCE_MOD_RTMP}/${VERSION_MOD_RTMP}.tar.gz"
  
 # expand the source files
@@ -62,8 +52,6 @@ echo "Extract Packages"
 tar xvf "${VERSION_PCRE}.tar.gz"
 tar xvf "${VERSION_LIBRESSL}.tar.gz"
 tar xvf "${VERSION_NGINX}.tar.gz"
-tar xvf "${VERSION_MOD_PAGESPEED}.tar.gz"
-tar xvf "${VERSION_PSOL}.tar.gz" -C "$PATH_MOD_PAGESPEED"
 tar xvf "${VERSION_MOD_RTMP}.tar.gz"
  
 # build nginx, with various modules included/excluded
@@ -99,8 +87,7 @@ cd "$PATH_NGINX"
             --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
             --with-debug \
             --with-pcre-jit \
-            --add-module="$PATH_MOD_RTMP" \
-            --add-module="$PATH_MOD_PAGESPEED"
+            --add-module="$PATH_MOD_RTMP"
  
 # Distribute to destination directory
 make -j $N_CPU
