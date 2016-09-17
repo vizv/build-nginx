@@ -1,55 +1,63 @@
-FROM ubuntu:latest
+FROM alpine:edge
 MAINTAINER Viz <viz@linux.com>
 
 ENV DIR_SCRIPTS='/scripts' \
-    BPATH='/tmp/build' \
+    BPATH='/usr/src' \
     DPATH='/tmp/dist'
+RUN mkdir "$BPATH"
 
-RUN apt-get update \
-    && apt-get install -y wget build-essential libgd-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* \
-    && mkdir "$BPATH"
+RUN apk add --no-cache curl make gcc g++ linux-headers libc-dev
 
-ENV PCRE_VERSION='8.39' \
-    LIBRESSL_VERSION='2.4.2' \
-    NGINX_VERSION='1.11.4' \
-    MOD_RTMP_VERSION='1.1.9' \
-    MOD_HEADERS_MORE_VERSION='0.31' \
-    MOD_FANCYINDEX_VERSION='0.4.1' \
-    SOURCE_PCRE='http://ftp.csx.cam.ac.uk/pub/software/programming/pcre' \
-    SOURCE_LIBRESSL='http://ftp.openbsd.org/pub/OpenBSD/LibreSSL' \
-    SOURCE_NGINX='http://nginx.org/download' \
-    SOURCE_MOD_RTMP='https://github.com/arut/nginx-rtmp-module/archive' \
-    SOURCE_MOD_HEADERS_MORE='https://github.com/openresty/headers-more-nginx-module/archive' \
-    SOURCE_MOD_FANCYINDEX='https://github.com/aperezdc/ngx-fancyindex/archive'
+ENV GITHUB='https://github.com'
 
-ENV VERSION_PCRE="pcre-${PCRE_VERSION}" \
-    VERSION_LIBRESSL="libressl-${LIBRESSL_VERSION}" \
-    VERSION_NGINX="nginx-${NGINX_VERSION}" \
-    VERSION_MOD_RTMP="v${MOD_RTMP_VERSION}" \
-    VERSION_MOD_HEADERS_MORE="v${MOD_HEADERS_MORE_VERSION}" \
-    VERSION_MOD_FANCYINDEX="v${MOD_FANCYINDEX_VERSION}" \
-    PATH_PCRE="${BPATH}/pcre-${PCRE_VERSION}" \
-    PATH_LIBRESSL="${BPATH}/libressl-${LIBRESSL_VERSION}" \
-    PATH_NGINX="${BPATH}/nginx-${NGINX_VERSION}" \
-    PATH_MOD_RTMP="${BPATH}/nginx-rtmp-module-${MOD_RTMP_VERSION}" \
-    PATH_MOD_HEADERS_MORE="${BPATH}/headers-more-nginx-module-${MOD_HEADERS_MORE_VERSION}" \
-    PATH_MOD_FANCYINDEX="${BPATH}/ngx-fancyindex-${MOD_FANCYINDEX_VERSION}"
+ENV NAME='zlib'
+ENV VERSION='1.2.8'
+ENV SOURCE='http://zlib.net'
+ENV FILE_ZLIB="${SOURCE}/${NAME}-${VERSION}"
+ENV PATH_ZLIB="${BPATH}/${NAME}-${VERSION}"
+RUN cd "$BPATH" && curl -fsSL "${FILE_ZLIB}.tar.gz" | tar zxv
 
-# FIXME: checksum and verify signature before untar!
-RUN cd "$BPATH" \
-    && wget -qO- "${SOURCE_PCRE}/${VERSION_PCRE}.tar.gz" \
-       | tar zxv \
-    && wget -qO- "${SOURCE_LIBRESSL}/${VERSION_LIBRESSL}.tar.gz" \
-       | tar zxv \
-    && wget -qO- "${SOURCE_NGINX}/${VERSION_NGINX}.tar.gz" \
-       | tar zxv \
-    && wget -qO- "${SOURCE_MOD_RTMP}/${VERSION_MOD_RTMP}.tar.gz" \
-       | tar zxv \
-    && wget -qO- "${SOURCE_MOD_HEADERS_MORE}/${VERSION_MOD_HEADERS_MORE}.tar.gz" \
-       | tar zxv \
-    && wget -qO- "${SOURCE_MOD_FANCYINDEX}/${VERSION_MOD_FANCYINDEX}.tar.gz" \
-       | tar zxv
+ENV NAME='pcre'
+ENV VERSION='8.39'
+ENV SOURCE='http://ftp.csx.cam.ac.uk/pub/software/programming/pcre'
+ENV FILE_PCRE="${SOURCE}/${NAME}-${VERSION}"
+ENV PATH_PCRE="${BPATH}/${NAME}-${VERSION}"
+RUN cd "$BPATH" && curl -fsSL "${FILE_PCRE}.tar.gz" | tar zxv
+
+ENV NAME='nginx-rtmp-module'
+ENV VERSION='1.1.9'
+ENV SOURCE="${GITHUB}/arut/${NAME}/archive"
+ENV FILE_MOD_RTMP="${SOURCE}/v${VERSION}"
+ENV PATH_MOD_RTMP="${BPATH}/${NAME}-${VERSION}"
+RUN cd "$BPATH" && curl -fsSL "${FILE_MOD_RTMP}.tar.gz" | tar zxv
+
+ENV NAME='headers-more-nginx-module'
+ENV VERSION='0.31'
+ENV SOURCE="${GITHUB}/openresty/${NAME}/archive"
+ENV FILE_MOD_HEADERS_MORE="${SOURCE}/v${VERSION}"
+ENV PATH_MOD_HEADERS_MORE="${BPATH}/${NAME}-${VERSION}"
+RUN cd "$BPATH" && curl -fsSL "${FILE_MOD_HEADERS_MORE}.tar.gz" | tar zxv
+
+ENV NAME='ngx-fancyindex'
+ENV VERSION='0.4.1'
+ENV SOURCE="${GITHUB}/aperezdc/${NAME}/archive"
+ENV FILE_MOD_FANCYINDEX="${SOURCE}/v${VERSION}"
+ENV PATH_MOD_FANCYINDEX="${BPATH}/ngx-fancyindex-${VERSION}"
+RUN cd "$BPATH" && curl -fsSL "${FILE_MOD_FANCYINDEX}.tar.gz" | tar zxv
+
+ENV NAME='libressl'
+ENV VERSION='2.4.2'
+ENV SOURCE='http://ftp.openbsd.org/pub/OpenBSD/LibreSSL'
+ENV FILE_LIBRESSL="${SOURCE}/${NAME}-${VERSION}"
+ENV PATH_LIBRESSL="${BPATH}/${NAME}-${VERSION}"
+RUN cd "$BPATH" && curl -fsSL "${FILE_LIBRESSL}.tar.gz" | tar zxv
+
+ENV NAME='nginx'
+ENV VERSION='1.11.4'
+ENV SOURCE='http://nginx.org/download'
+ENV FILE_NGINX="${SOURCE}/${NAME}-${VERSION}"
+ENV PATH_NGINX="${BPATH}/${NAME}-${VERSION}"
+RUN cd "$BPATH" && curl -fsSL "${FILE_NGINX}.tar.gz" | tar zxv
 
 COPY build /
 CMD ["/build"]
