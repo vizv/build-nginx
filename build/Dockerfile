@@ -1,5 +1,5 @@
 FROM alpine:edge
-MAINTAINER Viz <viz@linux.com>
+MAINTAINER Wenxuan Zhao <viz@linux.com>
 
 ENV DIR_SCRIPTS='/scripts' \
     BPATH='/usr/src' \
