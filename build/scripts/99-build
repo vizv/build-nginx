@@ -54,4 +54,5 @@ make -j $N_CPU
 mkdir -p "${DPATH}/var/run"
 mkdir -p "${DPATH}/var/cache/nginx"
 mkdir -p "${DPATH}/usr/sbin"
+strip objs/nginx
 install -m755 objs/nginx "${DPATH}/usr/sbin/nginx"
