@@ -25,14 +25,14 @@ ENV PATH_PCRE="${BPATH}/${NAME}-${VERSION}"
 RUN cd "$BPATH" && curl -fsSL "${FILE_PCRE}.tar.gz" | tar zxv
 
 ENV NAME='nginx-rtmp-module'
-ENV VERSION='1.1.9'
+ENV VERSION='1.1.10'
 ENV SOURCE="${GITHUB}/arut/${NAME}/archive"
 ENV FILE_MOD_RTMP="${SOURCE}/v${VERSION}"
 ENV PATH_MOD_RTMP="${BPATH}/${NAME}-${VERSION}"
 RUN cd "$BPATH" && curl -fsSL "${FILE_MOD_RTMP}.tar.gz" | tar zxv
 
 ENV NAME='headers-more-nginx-module'
-ENV VERSION='0.31'
+ENV VERSION='0.32'
 ENV SOURCE="${GITHUB}/openresty/${NAME}/archive"
 ENV FILE_MOD_HEADERS_MORE="${SOURCE}/v${VERSION}"
 ENV PATH_MOD_HEADERS_MORE="${BPATH}/${NAME}-${VERSION}"
@@ -46,14 +46,14 @@ ENV PATH_MOD_FANCYINDEX="${BPATH}/ngx-fancyindex-${VERSION}"
 RUN cd "$BPATH" && curl -fsSL "${FILE_MOD_FANCYINDEX}.tar.gz" | tar zxv
 
 ENV NAME='libressl'
-ENV VERSION='2.4.2'
+ENV VERSION='2.4.4'
 ENV SOURCE='http://ftp.openbsd.org/pub/OpenBSD/LibreSSL'
 ENV FILE_LIBRESSL="${SOURCE}/${NAME}-${VERSION}"
 ENV PATH_LIBRESSL="${BPATH}/${NAME}-${VERSION}"
 RUN cd "$BPATH" && curl -fsSL "${FILE_LIBRESSL}.tar.gz" | tar zxv
 
 ENV NAME='nginx'
-ENV VERSION='1.11.4'
+ENV VERSION='1.11.5'
 ENV SOURCE='http://nginx.org/download'
 ENV FILE_NGINX="${SOURCE}/${NAME}-${VERSION}"
 ENV PATH_NGINX="${BPATH}/${NAME}-${VERSION}"
