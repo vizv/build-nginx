@@ -11,7 +11,7 @@ RUN apk add --no-cache curl make gcc g++ linux-headers libc-dev
 ENV GITHUB='https://github.com'
 
 ENV NAME='zlib'
-ENV VERSION='1.2.8'
+ENV VERSION='1.2.10'
 ENV SOURCE='http://zlib.net'
 ENV FILE_ZLIB="${SOURCE}/${NAME}-${VERSION}"
 ENV PATH_ZLIB="${BPATH}/${NAME}-${VERSION}"
@@ -53,7 +53,7 @@ ENV PATH_LIBRESSL="${BPATH}/${NAME}-${VERSION}"
 RUN cd "$BPATH" && curl -fsSL "${FILE_LIBRESSL}.tar.gz" | tar zxv
 
 ENV NAME='nginx'
-ENV VERSION='1.11.5'
+ENV VERSION='1.11.8'
 ENV SOURCE='http://nginx.org/download'
 ENV FILE_NGINX="${SOURCE}/${NAME}-${VERSION}"
 ENV PATH_NGINX="${BPATH}/${NAME}-${VERSION}"
