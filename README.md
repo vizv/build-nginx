@@ -2,19 +2,19 @@
 
 This repository contains build scripts for customizing nginx.
 
-* [nginx/1.11.8](http://nginx.org/)
+* [nginx/1.13.4](http://nginx.org/)
 
 ## Libraries
 
-* [zlib/1.2.10](http://zlib.net/)
-* [PCRE/8.39](http://www.pcre.org/)
-* [LibreSSL/2.4.4](http://www.libressl.org/)
+* [zlib/1.2.11](http://zlib.net/)
+* [PCRE/8.41](http://www.pcre.org/)
+* [LibreSSL/2.5.5](http://www.libressl.org/)
 
 ## Modules
 
-* [nginx-rtmp-module/1.1.10](https://github.com/arut/nginx-rtmp-module)
+* [nginx-rtmp-module/1.2.0](https://github.com/arut/nginx-rtmp-module)
 * [headers-more-nginx-module/0.32](https://github.com/openresty/headers-more-nginx-module)
-* [ngx-fancyindex/0.4.1](https://github.com/aperezdc/ngx-fancyindex)
+* [ngx-fancyindex/0.4.2](https://github.com/aperezdc/ngx-fancyindex)
 
 ## Usage
 
