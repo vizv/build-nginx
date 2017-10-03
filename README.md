@@ -19,8 +19,15 @@ This repository contains Dockerfile and build scripts for building a **small**, 
 
 ## Usage
 
+### Build
+
 1. (Optional) you may modify `scripts` directory to adapt to your needs.
 2. run `make`.
 
-> Note: When running `make`, you may specify version by setting `VERSION_XXX`, or set `IMAGE` and `TAG` for tagging Docker images.
+Note: When running `make`, you may specify version by setting `VERSION_XXX`, or set `IMAGE` and `TAG` for tagging Docker images.
 
+### Run
+
+* I recommend you use the latest version of Docker and deploy with `docker stack deploy -c nginx.yml nginx`.
+
+More information about `docker stack deploy` please check [documents](https://docs.docker.com/engine/reference/commandline/stack_deploy/).

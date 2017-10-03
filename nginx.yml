@@ -1,0 +1,32 @@
+version: '3.3'
+
+configs:
+  nginx.conf:
+    file: ./demo/configs/nginx.conf
+  mime.types:
+    file: ./demo/configs/mime.types
+  servers.conf:
+    file: ./demo/configs/servers.conf
+
+services:
+  nginx:
+    image: nginx:latest
+    deploy:
+      mode: global
+    configs:
+      - source:  nginx.conf
+        target:  /etc/nginx/nginx.conf
+      - source:  mime.types
+        target:  /etc/nginx/mime.types
+      - source:  servers.conf
+        target:  /etc/nginx/servers.conf
+    ports:
+      - target:     80
+        published:  80
+        protocol:   tcp
+        mode:       host
+    volumes:
+      - type:       bind
+        source:     ./demo/www
+        target:     /var/www/default
+        read_only:  true
