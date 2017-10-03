@@ -45,7 +45,6 @@ cd "$PATH_NGINX"
             --with-pcre="$PATH_PCRE" \
             --with-openssl="$PATH_LIBRESSL" \
             --add-module="$PATH_MOD_RTMP" \
-            --add-module="$PATH_MOD_HEADERS_MORE" \
             --add-module="$PATH_MOD_FANCYINDEX"
 
 make -j $N_CPU

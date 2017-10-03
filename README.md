@@ -1,34 +1,26 @@
-# Nginx Build Engine
+# NGINX Build Engine
 
-This repository contains build scripts for customizing nginx.
+This repository contains Dockerfile and build scripts for building a **small**, **fast**, and **customized** NGINX Docker image.
 
-* [nginx/1.13.4](http://nginx.org/)
+## Version Information
 
-## Libraries
+* [nginx/1.13.5](http://nginx.org/)
 
+### Libraries
+
+* [LibreSSL/2.5.5](http://www.libressl.org/)
 * [zlib/1.2.11](http://zlib.net/)
 * [PCRE/8.41](http://www.pcre.org/)
-* [LibreSSL/2.5.5](http://www.libressl.org/)
 
-## Modules
+### Modules
 
 * [nginx-rtmp-module/1.2.0](https://github.com/arut/nginx-rtmp-module)
-* [headers-more-nginx-module/0.32](https://github.com/openresty/headers-more-nginx-module)
 * [ngx-fancyindex/0.4.2](https://github.com/aperezdc/ngx-fancyindex)
 
 ## Usage
 
-``` bash
-cd build
-docker build -t build-nginx .
+1. (Optional) you may modify `scripts` directory to adapt to your needs.
+2. run `make`.
 
-cd ..
-docker run --rm -it \
-           -v "$(pwd)/build/scripts:/scripts:ro" \
-           -v "$(pwd)/dist/files:/dist" \
-           build-nginx
-docker rmi build-nginx
+> Note: When running `make`, you may specify version by setting `VERSION_XXX`, or set `IMAGE` and `TAG` for tagging Docker images.
 
-cd dist
-docker build -t nginx .
-```
