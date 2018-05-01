@@ -1,10 +1,10 @@
 .PHONY: all
 
-VERSION_NGINX           ?=  '1.13.5'
-VERSION_LIBRESSL        ?=   '2.5.5'
+VERSION_NGINX           ?= '1.13.12'
+VERSION_LIBRESSL        ?=   '2.7.2'
 VERSION_ZLIB            ?=  '1.2.11'
-VERSION_PCRE            ?=    '8.41'
-VERSION_MOD_RTMP        ?=   '1.2.0'
+VERSION_PCRE            ?=    '8.42'
+VERSION_MOD_RTMP        ?=   '1.2.1'
 VERSION_MOD_FANCYINDEX  ?=   '0.4.2'
 
 IMAGE  ?=  nginx

@@ -6,11 +6,11 @@ RUN mkdir "$BPATH"
 
 RUN apk add --no-cache curl make gcc g++ linux-headers libc-dev
 
-ARG VERSION_NGINX=1.13.5
-ARG VERSION_LIBRESSL=2.5.5
+ARG VERSION_NGINX=1.13.12
+ARG VERSION_LIBRESSL=2.7.2
 ARG VERSION_ZLIB=1.2.11
-ARG VERSION_PCRE=8.41
-ARG VERSION_MOD_RTMP=1.2.0
+ARG VERSION_PCRE=8.42
+ARG VERSION_MOD_RTMP=1.2.1
 ARG VERSION_MOD_FANCYINDEX=0.4.2
 
 ENV FILE_NGINX="http://nginx.org/download/nginx-${VERSION_NGINX}.tar.gz"
@@ -22,7 +22,7 @@ RUN mkdir -p "$PATH_LIBRESSL" && curl -fsSL "$FILE_LIBRESSL" | tar zxv -C "$PATH
 ENV FILE_ZLIB="http://zlib.net/zlib-${VERSION_ZLIB}.tar.gz"
 ENV PATH_ZLIB="${BPATH}/zlib"
 RUN mkdir -p "$PATH_ZLIB" && curl -fsSL "$FILE_ZLIB" | tar zxv -C "$PATH_ZLIB" --strip-components=1
-ENV FILE_PCRE="http://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${VERSION_PCRE}.tar.gz"
+ENV FILE_PCRE="http://ftp.pcre.org/pub/pcre/pcre-${VERSION_PCRE}.tar.gz"
 ENV PATH_PCRE="${BPATH}/pcre"
 RUN mkdir -p "$PATH_PCRE" && curl -fsSL "$FILE_PCRE" | tar zxv -C "$PATH_PCRE" --strip-components=1
 ENV FILE_MOD_RTMP="https://github.com/arut/nginx-rtmp-module/archive/v${VERSION_MOD_RTMP}.tar.gz"
