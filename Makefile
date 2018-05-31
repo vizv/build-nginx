@@ -1,7 +1,7 @@
 .PHONY: all
 
 VERSION_NGINX           ?= '1.13.12'
-VERSION_LIBRESSL        ?=   '2.7.2'
+VERSION_LIBRESSL        ?=   '2.7.3'
 VERSION_ZLIB            ?=  '1.2.11'
 VERSION_PCRE            ?=    '8.42'
 VERSION_MOD_RTMP        ?=   '1.2.1'

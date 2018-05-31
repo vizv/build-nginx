@@ -8,7 +8,7 @@ This repository contains Dockerfile and build scripts for building a **small**, 
 
 ### Libraries
 
-* [LibreSSL/2.7.2](http://www.libressl.org/)
+* [LibreSSL/2.7.3](http://www.libressl.org/)
 * [zlib/1.2.11](http://zlib.net/)
 * [PCRE/8.42](http://www.pcre.org/)
 
