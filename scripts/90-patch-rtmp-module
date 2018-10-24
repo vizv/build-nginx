@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# enable strict mode
+set -e
+
+patch /usr/src/nginx-rtmp-module/ngx_rtmp_eval.c \
+    < "$(dirname "$0")/patches/rtmp-module-switch-fallthrough.patch"

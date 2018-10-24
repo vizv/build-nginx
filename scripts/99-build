@@ -47,7 +47,7 @@ cd "$PATH_NGINX"
             --add-module="$PATH_MOD_RTMP" \
             --add-module="$PATH_MOD_FANCYINDEX"
 
-make -j $N_CPU
+make -j "$N_CPU"
 
 # install to DPATH
 mkdir -p "${DPATH}/var/run"
