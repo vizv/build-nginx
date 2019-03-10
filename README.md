@@ -4,18 +4,17 @@ This repository contains Dockerfile and build scripts for building a **small**, 
 
 ## Version Information
 
-* [nginx/1.15.5](http://nginx.org/)
+* [nginx/1.14.2](http://nginx.org/)
 
 ### Libraries
 
-* [LibreSSL/2.8.2](http://www.libressl.org/)
+* [LibreSSL/2.8.3](http://www.libressl.org/)
 * [zlib/1.2.11](http://zlib.net/)
 * [PCRE/8.42](http://www.pcre.org/)
 
 ### Modules
 
-* [nginx-rtmp-module/1.2.1](https://github.com/arut/nginx-rtmp-module)
-* [ngx-fancyindex/0.4.3](https://github.com/aperezdc/ngx-fancyindex)
+All modules has been removed to keep the footprint small (and more secure)
 
 ## Usage
 
