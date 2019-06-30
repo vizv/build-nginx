@@ -6,10 +6,10 @@ RUN mkdir "$BPATH"
 
 RUN apk add --no-cache curl make gcc g++ linux-headers libc-dev
 
-ARG VERSION_NGINX=1.14.2
-ARG VERSION_LIBRESSL=2.8.3
+ARG VERSION_NGINX=1.16.0
+ARG VERSION_LIBRESSL=2.9.2
 ARG VERSION_ZLIB=1.2.11
-ARG VERSION_PCRE=8.42
+ARG VERSION_PCRE=8.43
 
 ENV FILE_NGINX="http://nginx.org/download/nginx-${VERSION_NGINX}.tar.gz"
 ENV PATH_NGINX="${BPATH}/nginx"

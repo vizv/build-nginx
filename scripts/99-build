@@ -25,6 +25,7 @@ cd "$PATH_NGINX"
             --http-scgi-temp-path=/var/cache/nginx/scgi_temp \
             --user=nginx \
             --group=nginx \
+            --with-http_auth_request_module \
             --with-http_ssl_module \
             --with-http_sub_module \
             --with-http_realip_module \

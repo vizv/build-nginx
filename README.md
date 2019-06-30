@@ -4,13 +4,13 @@ This repository contains Dockerfile and build scripts for building a **small**, 
 
 ## Version Information
 
-* [nginx/1.14.2](http://nginx.org/)
+* [nginx/1.16.0](http://nginx.org/)
 
 ### Libraries
 
-* [LibreSSL/2.8.3](http://www.libressl.org/)
+* [LibreSSL/2.9.2](http://www.libressl.org/)
 * [zlib/1.2.11](http://zlib.net/)
-* [PCRE/8.42](http://www.pcre.org/)
+* [PCRE/8.43](http://www.pcre.org/)
 
 ### Modules
 
