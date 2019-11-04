@@ -1,7 +1,7 @@
 .PHONY: all
 
-VERSION_NGINX           ?=  '1.16.0'
-VERSION_LIBRESSL        ?=   '2.9.2'
+VERSION_NGINX           ?=  '1.16.1'
+VERSION_LIBRESSL        ?=   '3.0.2'
 VERSION_ZLIB            ?=  '1.2.11'
 VERSION_PCRE            ?=    '8.43'
 

@@ -6,8 +6,8 @@ RUN mkdir "$BPATH"
 
 RUN apk add --no-cache curl make gcc g++ linux-headers libc-dev
 
-ARG VERSION_NGINX=1.16.0
-ARG VERSION_LIBRESSL=2.9.2
+ARG VERSION_NGINX=1.16.1
+ARG VERSION_LIBRESSL=3.0.2
 ARG VERSION_ZLIB=1.2.11
 ARG VERSION_PCRE=8.43
 
